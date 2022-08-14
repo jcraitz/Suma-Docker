@@ -1,0 +1,28 @@
+*.cache
+*.log
+*.pid
+*.swp
+.DS_Store
+.idea
+.env
+.htaccess
+.htpasswd
+.sass-cache
+.tmp
+/vendor
+node_modules
+suma/
+tmp/**/*
+
+# Configuration Files
+# service/config/config.ini
+# service/config/config.yaml
+# service/web/config/config.yaml
+# web/config/spaceassessConfig.js
+# analysis/config/config.yaml
+
+# Suma Logs
+sumalogs/sumaserver.log
+
+#cron job
+analysis/reports/lib/php/nightly.sh
