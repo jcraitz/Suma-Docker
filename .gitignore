@@ -11,7 +11,6 @@
 .tmp
 /vendor
 node_modules
-suma/
 tmp/**/*
 
 # Configuration Files
