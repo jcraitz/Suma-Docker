@@ -1,44 +1,28 @@
-version: '3.9'
-
 networks:
   suma_net:
 
 services:
   server:
     build:
-      context: ./app
+      context: .
       dockerfile: ./docker/server/Dockerfile
-    container_name: '${APP-NAME}-server'
+    container_name: '${APP_NAME}-server'
     ports:
       - '${APP_PORT}:80'
     #   - '8443:443'
     working_dir: /var/www/html
-    # environment:
-    #     APP_PORT: '${APP_PORT}'
-    #     APP_DB_ADMIN_PORT: '${APP_DB_ADMIN_PORT}'
-    #     APP_ADMIN_USER: '${APP_ADMIN_USER}'
-    #     APP_ADMIN_PASS: '${APP_ADMIN_PASS}'
-    #     DB_PORT: '${DB_PORT}'
-    #     MYSQL_ROOT_PASS: '${MYSQL_ROOT_PASS}'
-    #     MYSQL_USER: '${MYSQL_USER}'
-    #     MYSQL_PASS: '${MYSQL_PASS}'
-    #     MYSQL_DB: '${MYSQL_DB}'
-    #   ANALYSIS_CONFIG: ${ANALYSIS_CONFIG:-docker-config/analysis/config.yml}
-    #   SUMASERVICE_CONFIG: ${SUMASERVICE_CONFIG:-docker-config/service/config/config.yml}
-    #   WEB_CONFIG: ${WEB_CONFIG:-docker-config/service/web/config/config.yml}
-    #   JS_CONFIG: ${JS_CONFIG:-docker-config/web/config/spaceassessConfig.js}
-    #   - 'DATABASE_URL=mysql://${MYSQL_USER}:${MYSQL_PASS}@db_server:3306/${MYSQL_DB}?serverVersion=10.5'
     volumes:
-      - .:/var/www/app/suma
-      - ./service/web:/var/www/html/sumaserver
-      - ./web:/var/www/html/suma/client
-      - ./analysis:/var/www/html/suma/analysis
+      - ./suma:/var/www/app/suma
+      - ./suma/analysis:/var/www/html/suma/analysis
+      - ./suma/service/web:/var/www/html/sumaserver
+      - ./dev_logs:/var/www/app/suma/sumalogs
+      - ./suma/web:/var/www/html/suma/client
       - ./docker/server/apache/sites-enabled:/etc/apache2/sites-enabled
       - ./docker/server/php/php.ini:/usr/local/etc/php/conf.d/extra-php-config.ini
-    #   - ./docker-config/analysis/config/config.yaml:/var/www/app/suma/analysis/config/config.yaml
-    #   - ./docker-config/service/config/config.yaml:/var/www/app/suma/service/config/config.yaml
-    #   - ./docker-config/service/web/config/config.yaml:/var/www/html/sumaserver/config/config.yaml
-    #   - ./docker-config/web/config/spaceassessConfig.js:/var/www/html/suma/analysis/config/spaceassessConfig.js
+      - ./docker-config/analysis/config/config.yaml:/var/www/html/suma/analysis/config/config.yaml
+      - ./docker-config/service/config/config.yaml:/var/www/app/suma/service/config/config.yaml
+      - ./docker-config/service/web/config/config.yaml:/var/www/html/sumaserver/config/config.yaml
+      - ./docker-config/web/config/spaceassessConfig.js:/var/www/html/suma/client/config/spaceassessConfig.js
     depends_on:
       db_server:
         condition: service_healthy
@@ -58,7 +42,7 @@ services:
     volumes:
       - db_data:/var/lib/mysql
       - ./docker/db/mariadb/my.cnf:/etc/mysql/conf.d/my.cnf
-      - ./service/config/schema_w_sample.sql:/docker-entrypoint-initdb.d/schema_w_sample.sql
+      - ./suma/service/config/schema_w_sample.sql:/docker-entrypoint-initdb.d/schema_w_sample.sql
     healthcheck:
       test: mysqladmin ping -h 127.0.0.1 -u root --password=$$MYSQL_ROOT_PASSWORD
       interval: 5s
@@ -79,7 +63,6 @@ services:
       - db_admin_data:/var/www/html
     networks:
       - suma_net
-
 volumes:
   db_data:
   db_admin_data:

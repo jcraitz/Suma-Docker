@@ -22,16 +22,16 @@ production:
         db:
             host: suma-dev-db
             platform: Pdo_Mysql
-            dbname: 'sumadev'
-            user: 'suma'
-            pword: '12345'
-            port: '3306'
+            dbname: '${MYSQL_DB}'
+            user: '${MYSQL_USER}'
+            pword: '${MYSQL_PASS}'
+            port: '${DB_PORT}'
         log:
             path: '/var/www/app/suma/sumalogs/'
             name: 'sumaserver.log'
         admin:
-            user: 'admin'
-            pass: 'admin'
+            user: '${APP_ADMIN_USER}'
+            pass: '${APP_ADMIN_PASS}'
     queryserver:
         db:
             limit: 10000
