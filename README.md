@@ -2,18 +2,23 @@
 Docker development version of the [Suma Project](https://github.com/suma-project)
 
 ## Installation
- - Install Docker
+ - Install Docker (podman may work, but has not been tested, YMMV)
  - Clone or Download this repository.
  - From the project directory run:
    `cp .env.sample .env`
  - Using your favorite text editor or IDE modify any of the default environment variables to suit your needs.
+ - Note: at least temporarily, you will need to manually edit the config files in docker-config in addition to the .env file
  - From a terminal application, type 
-   `docker-compose up -d`
+   `docker compose up --build -d`
  - Visit [http://localhost:8181](http://localhost:8181) in your web browser for a basic list of app endpoints.
  - Visit [http://localhost:8182](http://localhost:8182) in your web browser for a PHPMyAdmin interface to inspect the DB.
+ - To shut down the containers and remove them, run
+   `docker compose down`
+ - If you don't need to rebuild, you can load up new containers with
+   `docker compose up -d`
 
 ## Admin Tools
-The Suma admin tools can be found at http://localhost:19679/sumaserver/admin. The default admin username is "sumaadmin" and admin password is "sumaadmin".
+The Suma admin tools can be found at http://localhost:19679/sumaserver/admin. The default admin username is "admin" and admin password is "admin".
 
 ## Notes on using Docker
 
