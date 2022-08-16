@@ -15,7 +15,7 @@ services:
       - ./suma:/var/www/app/suma
       - ./suma/analysis:/var/www/html/suma/analysis
       - ./suma/service/web:/var/www/html/sumaserver
-      - ./dev_log:/var/www/app/suma/sumalogs
+      - ./dev_logs:/var/www/app/suma/sumalogs
       - ./suma/web:/var/www/html/suma/client
       - ./docker/server/apache/sites-enabled:/etc/apache2/sites-enabled
       - ./docker/server/php/php.ini:/usr/local/etc/php/conf.d/extra-php-config.ini
